@@ -16,7 +16,7 @@ class AbstractElement implements ElementInterface
     protected $primaryKey = "ID";
     protected $isAssoc = true;
 
-    private $errorMesage = '';
+    private $errorMessage = '';
     private $lastOperation = false;
 
     // protected $translitParams = [
@@ -161,7 +161,7 @@ class AbstractElement implements ElementInterface
 
     public function getErrorMessage()
     {
-        return $this->errorMesage;
+        return $this->errorMessage;
     }
 
     public function setCompressedFields(array $fields = [])
@@ -229,7 +229,7 @@ class AbstractElement implements ElementInterface
 
     protected function setErrorMessage($message)
     {
-        $this->errorMesage = $message;
+        $this->errorMessage = $message;
     }
 
     /**
