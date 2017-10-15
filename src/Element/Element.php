@@ -51,6 +51,7 @@ class Element extends IbElementOrSection
 	    'detailPicture' => 'integer',
 	    'externalId'    => 'string',
     ];
+    protected $fieldsExtraTypes = [];
 
     /**
      * Возвращает массив элементов инфоблока в соответствии с переданными паметрами
@@ -144,18 +145,33 @@ class Element extends IbElementOrSection
     protected function getElementWithTypes($elem)
     {
         foreach ($elem as $key => $value) {
-            switch ($this->fieldsTypes[$key]) {
-                case 'integer':
-                    $elem[$key] = (int)$value;
-                    break;
+            $elem[$key] = $this->getValueByType($this->fieldsTypes[$key], $value);
+        }
 
-                default: // string
-                    $elem[$key] = (string)$value;
-                    break;
-            }
+        foreach ($elem as $key => $value) {
+            $elem[$key] = $this->getValueByType($this->fieldsExtraTypes[$key], $value);
         }
 
         return $elem;
+    }
+
+    protected function getValueByType($type, $valueInput)
+    {
+        switch ($type) {
+            case 'integer':
+                $value = (int) $valueInput;
+                break;
+
+            case 'string':
+                $value = (string) $valueInput;
+                break;
+
+            default:
+                $value = $valueInput;
+                break;
+        }
+
+        return $value;
     }
 
     public function add(array $params)

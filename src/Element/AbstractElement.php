@@ -78,6 +78,7 @@ class AbstractElement implements ElementInterface
     /**
      * Добавляет элемент
      * @param $params array набор полей для записи в БД
+     * @return bool
      */
     public function add(array $params)
     {
