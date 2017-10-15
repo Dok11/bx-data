@@ -30,6 +30,27 @@ class Element extends IbElementOrSection
         "externalId" => "EXTERNAL_ID",
     ];
     protected $fieldsExtra = [];
+    
+    protected $fieldsTypes = [
+	    'id'            => 'integer',
+	    'timestampX'    => 'string',
+	    'modifiedBy'    => 'string',
+	    'dateCreate'    => 'string',
+	    'createdBy'     => 'string',
+	    'sectionId'     => 'integer',
+	    'active'        => 'string',
+	    'sort'          => 'integer',
+	    'name'          => 'string',
+	    'picture'       => 'integer',
+	    'leftMargin'    => 'integer',
+	    'rightMargin'   => 'integer',
+	    'depthLevel'    => 'integer',
+	    'description'   => 'string',
+	    'code'          => 'string',
+	    'xmlId'         => 'string',
+	    'detailPicture' => 'integer',
+	    'externalId'    => 'string',
+    ];
 
     /**
      * Возвращает массив элементов инфоблока в соответствии с переданными паметрами
@@ -88,6 +109,10 @@ class Element extends IbElementOrSection
                     : count($result)
                 );
             $result[$key] = $this->getRenamed($elem);
+
+            if ($this->strictTypes) {
+	            $result[$key] = $this->getElementWithTypes($result[$key]);
+            }
         }
 
         return $result;
@@ -114,6 +139,24 @@ class Element extends IbElementOrSection
             $this->fieldsBase,
             $this->fieldsExtra
         );
+    }
+
+    protected function getElementWithTypes($elem)
+    {
+        foreach ($elem as $key => $value) {
+            print_r('switch for ' . $this->fieldsTypes[$key] . ' from ' . $key);
+            switch ($this->fieldsTypes[$key]) {
+                case 'integer':
+                    $elem[$key] = (int)$value;
+                    break;
+
+                default: // string
+                    $elem[$key] = (string)$value;
+                    break;
+            }
+        }
+
+        return $elem;
     }
 
     public function add(array $params)
@@ -161,6 +204,7 @@ class Element extends IbElementOrSection
 
     /**
      * @param array $params
+     * @return array
      */
     private function getUpdateParams(array $params)
     {
@@ -225,6 +269,7 @@ class Element extends IbElementOrSection
      *      ELEMENT_META_DESCRIPTION
      *      ELEMENT_PAGE_TITLE
      * @param int $primaryKey
+     * @return array
      */
     public function getSEO($elementId)
     {
