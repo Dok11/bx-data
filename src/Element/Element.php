@@ -30,7 +30,7 @@ class Element extends IbElementOrSection
         "externalId" => "EXTERNAL_ID",
     ];
     protected $fieldsExtra = [];
-    
+
     protected $fieldsTypes = [
 	    'id'            => 'integer',
 	    'timestampX'    => 'string',
@@ -144,7 +144,6 @@ class Element extends IbElementOrSection
     protected function getElementWithTypes($elem)
     {
         foreach ($elem as $key => $value) {
-            print_r('switch for ' . $this->fieldsTypes[$key] . ' from ' . $key);
             switch ($this->fieldsTypes[$key]) {
                 case 'integer':
                     $elem[$key] = (int)$value;
